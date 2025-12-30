@@ -1,35 +1,35 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState, Suspense, lazy } from 'react';
+import './App.css';
+
+const HeavyComponent = lazy(() => {
+  return new Promise(resolve => {
+    setTimeout(() => resolve(import('./HeavyComponent')), 1000);
+  });
+});
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="container">
+      <h1>Performance Optimization</h1>
+      
+      <section className="parent-box">
+        <h2>Parent Component</h2>
+        <p>The state changes here, but the child should ignore it.</p>
+        <div className="counter-controls">
+          <span className="count-display">Count: {count}</span>
+          <button onClick={() => setCount(c => c + 1)}>
+            Increment Counter
+          </button>
+        </div>
+      </section>
+
+      <Suspense fallback={<div className="loader">⏳ Loading Heavy Component...</div>}>
+        <HeavyComponent />
+      </Suspense>
+    </div>
+  );
 }
 
-export default App
+export default App;
