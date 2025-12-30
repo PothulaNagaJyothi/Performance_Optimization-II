@@ -3,7 +3,7 @@ import './App.css';
 
 const HeavyComponent = lazy(() => {
   return new Promise(resolve => {
-    setTimeout(() => resolve(import('./HeavyComponent')), 1000);
+    setTimeout(() => resolve(import('./components/HeavyComponent')), 1000);
   });
 });
 
